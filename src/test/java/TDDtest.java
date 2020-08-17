@@ -37,6 +37,6 @@ public class TDDtest {
         Bag bag = new Bag();
         Ticket rightTicket = locker.store(bag);
         Ticket wrongTicket = new Ticket();
-        assertThrows(WrongTicket.class,()->locker.pickUpBy(wrongTicket));
+        assertThrows(WrongTicketException.class,()->locker.pickUpBy(wrongTicket));
     }
 }

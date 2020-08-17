@@ -20,8 +20,11 @@ public class Locker {
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        Bag bag = bagPool.get(ticket);
-        bagPool.remove(ticket);
-        return bag;
+        if(bagPool.containsKey(ticket)){
+            Bag bag = bagPool.get(ticket);
+            bagPool.remove(ticket);
+            return bag;
+        }
+        throw new WrongTicketException();
     }
 }
