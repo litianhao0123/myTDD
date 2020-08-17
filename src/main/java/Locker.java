@@ -13,4 +13,8 @@ public class Locker {
         }
         throw new LockerFullException();
     }
+
+    public Bag pickUpBy(Ticket secondTicket) {
+        return new Bag();
+    }
 }

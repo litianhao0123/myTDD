@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TDDtest {
 
@@ -20,5 +19,15 @@ public class TDDtest {
         Ticket firstTicket = locker.store(firstBag);
         Bag secondBag = new Bag();
         assertThrows(LockerFullException.class,()->locker.store(secondBag));
+    }
+
+    @Test
+    public void should_get_the_right_bag_when_picking_up_with_the_right_ticket_in_locker_of_two_capacity(){
+        Locker locker = new Locker(2);
+        Bag firstBag = new Bag();
+        Ticket firstTicket = locker.store(firstBag);
+        Bag secondBag = new Bag();
+        Ticket secondTicket = locker.store(secondBag);
+        assertEquals(secondBag,locker.pickUpBy(secondTicket));
     }
 }
