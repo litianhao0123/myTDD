@@ -11,7 +11,7 @@ public class Locker {
     }
 
     public Ticket store(Bag bag) {
-        if(bagPool.size()<capacity){
+        if(isAvailable()){
             Ticket ticket = new Ticket();
             bagPool.put(ticket,bag);
             return ticket;
@@ -19,12 +19,20 @@ public class Locker {
         throw new LockerFullException();
     }
 
+    private boolean isAvailable() {
+        return bagPool.size()<capacity;
+    }
+
     public Bag pickUpBy(Ticket ticket) {
-        if(bagPool.containsKey(ticket)){
+        if(hasBag(ticket)){
             Bag bag = bagPool.get(ticket);
             bagPool.remove(ticket);
             return bag;
         }
         throw new WrongTicketException();
+    }
+
+    private boolean hasBag(Ticket ticket) {
+        return bagPool.containsKey(ticket);
     }
 }
