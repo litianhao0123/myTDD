@@ -1,20 +1,27 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Locker {
 
     private int capacity;
-    private int count;
+    private Map<Ticket,Bag> bagPool = new HashMap<>();
 
     public Locker(int capacity) {
         this.capacity = capacity;
     }
 
     public Ticket store(Bag bag) {
-        if(++count<=capacity){
-            return new Ticket();
+        if(bagPool.size()<capacity){
+            Ticket ticket = new Ticket();
+            bagPool.put(ticket,bag);
+            return ticket;
         }
         throw new LockerFullException();
     }
 
-    public Bag pickUpBy(Ticket secondTicket) {
-        return new Bag();
+    public Bag pickUpBy(Ticket ticket) {
+        Bag bag = bagPool.get(ticket);
+        bagPool.remove(ticket);
+        return bag;
     }
 }
