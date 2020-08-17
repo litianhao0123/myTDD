@@ -39,4 +39,14 @@ public class TDDtest {
         Ticket wrongTicket = new Ticket();
         assertThrows(WrongTicketException.class,()->locker.pickUpBy(wrongTicket));
     }
+
+    @Test
+    public void should_throw_exception_when_picking_up_with_the_used_ticket(){
+        Locker locker = new Locker(1);
+        Bag bag = new Bag();
+        Ticket ticket = locker.store(bag);
+        locker.pickUpBy(ticket);
+        Ticket nextTicket = locker.store(bag);
+        assertThrows(WrongTicketException.class,()->locker.pickUpBy(ticket));
+    }
 }
