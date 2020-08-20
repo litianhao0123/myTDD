@@ -9,9 +9,9 @@ public class PrimaryLockerRobotTest {
     public void should_get_the_first_locker_ticket_when_store_bag_given_two_available_locker(){
         Locker locker1 = new Locker(2);
         Locker locker2 = new Locker(2);
-        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
         Bag bag = new Bag();
-        Ticket ticket = robot.store(bag);
+        Ticket ticket = primaryLockerRobot.store(bag);
         assertNotNull(ticket);
         assertEquals(bag, locker1.pickUpBy(ticket));
     }
@@ -22,9 +22,9 @@ public class PrimaryLockerRobotTest {
         Bag bag1 = new Bag();
         locker1.store(bag1);
         Locker locker2 = new Locker(2);
-        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
         Bag bag2 = new Bag();
-        Ticket ticket = robot.store(bag2);
+        Ticket ticket = primaryLockerRobot.store(bag2);
         assertNotNull(ticket);
         assertEquals(bag2, locker2.pickUpBy(ticket));
     }
@@ -37,29 +37,29 @@ public class PrimaryLockerRobotTest {
         Locker locker2 = new Locker(1);
         Bag bag2 = new Bag();
         locker2.store(bag2);
-        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
         Bag bag3 = new Bag();
-        assertThrows(LockerFullException.class,()->robot.store(bag3));
+        assertThrows(LockerFullException.class,()-> primaryLockerRobot.store(bag3));
     }
 
     @Test
     public void should_get_bag_when_pick_up_with_the_right_ticket() {
         Locker locker1 = new Locker(1);
         Locker locker2 = new Locker(1);
-        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
         Bag bag = new Bag();
-        Ticket ticket = robot.store(bag);
-        assertEquals(bag,robot.pickUpBy(ticket));
+        Ticket ticket = primaryLockerRobot.store(bag);
+        assertEquals(bag, primaryLockerRobot.pickUpBy(ticket));
     }
 
     @Test
     public void should_throw_exception_when_pick_up_with_the_wrong_ticket() {
         Locker locker1 = new Locker(1);
         Locker locker2 = new Locker(1);
-        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
         Bag bag = new Bag();
-        Ticket ticket = robot.store(bag);
+        Ticket ticket = primaryLockerRobot.store(bag);
         Ticket wrongTicket = new Ticket();
-        assertThrows(WrongTicketException.class,()->robot.pickUpBy(wrongTicket));
+        assertThrows(WrongTicketException.class,()-> primaryLockerRobot.pickUpBy(wrongTicket));
     }
 }

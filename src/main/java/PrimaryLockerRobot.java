@@ -1,17 +1,17 @@
 import java.util.List;
 
-public class Robot {
+public class PrimaryLockerRobot {
 
     private List<Locker> lockers;
 
-    public Robot(List<Locker> lockers) {
+    public PrimaryLockerRobot(List<Locker> lockers) {
         this.lockers = lockers;
     }
 
 
     public Ticket store(Bag bag) {
         for(Locker locker : lockers){
-            if(!locker.isUnAvailable()){
+            if(!locker.isFull()){
                 return locker.store(bag);
             }
         }
@@ -20,7 +20,7 @@ public class Robot {
 
     public Bag pickUpBy(Ticket ticket) {
         for(Locker locker : lockers){
-            if(!locker.notHasBag(ticket)){
+            if(!locker.invalidTicket(ticket)){
                 return locker.pickUpBy(ticket);
             }
         }

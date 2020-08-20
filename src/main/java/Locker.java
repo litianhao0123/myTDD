@@ -11,7 +11,7 @@ public class Locker {
     }
 
     public Ticket store(Bag bag) {
-        if(isUnAvailable()){
+        if(isFull()){
             throw new LockerFullException();
         }
         Ticket ticket = new Ticket();
@@ -19,12 +19,12 @@ public class Locker {
         return ticket;
     }
 
-    public boolean isUnAvailable() {
+    public boolean isFull() {
         return bagPool.size()>=capacity;
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        if(notHasBag(ticket)){
+        if(invalidTicket(ticket)){
             throw new WrongTicketException();
         }
         Bag bag = bagPool.get(ticket);
@@ -32,7 +32,7 @@ public class Locker {
         return bag;
     }
 
-    public boolean notHasBag(Ticket ticket) {
+    public boolean invalidTicket(Ticket ticket) {
         return !bagPool.containsKey(ticket);
     }
 
