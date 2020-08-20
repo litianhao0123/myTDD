@@ -41,4 +41,14 @@ public class PrimaryLockerRobotTest {
         Bag bag3 = new Bag();
         assertThrows(LockerFullException.class,()->robot.store(bag3));
     }
+
+    @Test
+    public void should_get_bag_when_pick_up_with_the_right_ticket() {
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        Bag bag = new Bag();
+        Ticket ticket = robot.store(bag);
+        assertEquals(bag,robot.pickUpBy(ticket));
+    }
 }

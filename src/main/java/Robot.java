@@ -17,4 +17,13 @@ public class Robot {
         }
         throw new LockerFullException();
     }
+
+    public Bag pickUpBy(Ticket ticket) {
+        for(Locker locker : lockers){
+            if(!locker.notHasBag(ticket)){
+                return locker.pickUpBy(ticket);
+            }
+        }
+        return null;
+    }
 }
