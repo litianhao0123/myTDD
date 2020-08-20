@@ -24,6 +24,6 @@ public class Robot {
                 return locker.pickUpBy(ticket);
             }
         }
-        return null;
+        throw new WrongTicketException();
     }
 }

@@ -51,4 +51,15 @@ public class PrimaryLockerRobotTest {
         Ticket ticket = robot.store(bag);
         assertEquals(bag,robot.pickUpBy(ticket));
     }
+
+    @Test
+    public void should_throw_exception_when_pick_up_with_the_wrong_ticket() {
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        Bag bag = new Bag();
+        Ticket ticket = robot.store(bag);
+        Ticket wrongTicket = new Ticket();
+        assertThrows(WrongTicketException.class,()->robot.pickUpBy(wrongTicket));
+    }
 }
