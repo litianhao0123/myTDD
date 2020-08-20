@@ -11,28 +11,28 @@ public class Locker {
     }
 
     public Ticket store(Bag bag) {
-        if(isAvailable()){
-            Ticket ticket = new Ticket();
-            bagPool.put(ticket,bag);
-            return ticket;
+        if(isUnAvailable()){
+            throw new LockerFullException();
         }
-        throw new LockerFullException();
+        Ticket ticket = new Ticket();
+        bagPool.put(ticket,bag);
+        return ticket;
     }
 
-    private boolean isAvailable() {
-        return bagPool.size()<capacity;
+    private boolean isUnAvailable() {
+        return bagPool.size()>=capacity;
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        if(hasBag(ticket)){
-            Bag bag = bagPool.get(ticket);
-            bagPool.remove(ticket);
-            return bag;
+        if(notHasBag(ticket)){
+            throw new WrongTicketException();
         }
-        throw new WrongTicketException();
+        Bag bag = bagPool.get(ticket);
+        bagPool.remove(ticket);
+        return bag;
     }
 
-    private boolean hasBag(Ticket ticket) {
+    private boolean notHasBag(Ticket ticket) {
         return bagPool.containsKey(ticket);
     }
 }
