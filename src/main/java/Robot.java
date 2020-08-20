@@ -10,6 +10,11 @@ public class Robot {
 
 
     public Ticket store(Bag bag) {
-        return lockers.get(0).store(bag);
+        for(Locker locker : lockers){
+            if(!locker.isUnAvailable()){
+                return locker.store(bag);
+            }
+        }
+        return null;
     }
 }

@@ -19,7 +19,7 @@ public class Locker {
         return ticket;
     }
 
-    private boolean isUnAvailable() {
+    public boolean isUnAvailable() {
         return bagPool.size()>=capacity;
     }
 
@@ -35,4 +35,5 @@ public class Locker {
     private boolean notHasBag(Ticket ticket) {
         return !bagPool.containsKey(ticket);
     }
+
 }
