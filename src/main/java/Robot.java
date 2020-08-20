@@ -15,6 +15,6 @@ public class Robot {
                 return locker.store(bag);
             }
         }
-        return null;
+        throw new LockerFullException();
     }
 }

@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PrimaryLockerRobotTest {
     @Test
@@ -27,5 +27,18 @@ public class PrimaryLockerRobotTest {
         Ticket ticket = robot.store(bag2);
         assertNotNull(ticket);
         assertEquals(bag2, locker2.pickUpBy(ticket));
+    }
+
+    @Test
+    public void should_throw_exception_when_store_bag_given_all_lockers_unavailable(){
+        Locker locker1 = new Locker(1);
+        Bag bag1 = new Bag();
+        locker1.store(bag1);
+        Locker locker2 = new Locker(1);
+        Bag bag2 = new Bag();
+        locker2.store(bag2);
+        Robot robot = new Robot(Arrays.asList(locker1, locker2));
+        Bag bag3 = new Bag();
+        assertThrows(LockerFullException.class,()->robot.store(bag3));
     }
 }
