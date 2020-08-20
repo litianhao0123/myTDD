@@ -33,6 +33,6 @@ public class Locker {
     }
 
     private boolean notHasBag(Ticket ticket) {
-        return bagPool.containsKey(ticket);
+        return !bagPool.containsKey(ticket);
     }
 }
