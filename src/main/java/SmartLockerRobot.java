@@ -22,4 +22,13 @@ public class SmartLockerRobot {
         }
         return maxCapacityLocker.store(bag);
     }
+
+    public Bag pickUpBy(Ticket ticket) {
+        for(Locker locker : lockers){
+            if(!locker.invalidTicket(ticket)){
+                return locker.pickUpBy(ticket);
+            }
+        }
+        return null;
+    }
 }
