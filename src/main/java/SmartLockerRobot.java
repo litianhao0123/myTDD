@@ -17,6 +17,9 @@ public class SmartLockerRobot {
                 maxCapacityLocker = locker;
             }
         }
+        if(maxCapacity==0){
+            throw new LockerFullException();
+        }
         return maxCapacityLocker.store(bag);
     }
 }
