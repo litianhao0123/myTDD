@@ -29,6 +29,6 @@ public class SmartLockerRobot {
                 return locker.pickUpBy(ticket);
             }
         }
-        return null;
+        throw new WrongTicketException();
     }
 }
