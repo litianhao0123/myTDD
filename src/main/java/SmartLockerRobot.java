@@ -9,6 +9,14 @@ public class SmartLockerRobot {
     }
 
     public Ticket store(Bag bag) {
-        return lockers.get(0).store(bag);
+        int maxCapacity = 0;
+        Locker maxCapacityLocker = null;
+        for(Locker locker : lockers){
+            if(locker.availableCapacity()>maxCapacity){
+                maxCapacity = locker.availableCapacity();
+                maxCapacityLocker = locker;
+            }
+        }
+        return maxCapacityLocker.store(bag);
     }
 }

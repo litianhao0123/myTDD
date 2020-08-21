@@ -36,4 +36,7 @@ public class Locker {
         return !bagPool.containsKey(ticket);
     }
 
+    public int availableCapacity(){
+        return capacity-bagPool.size();
+    }
 }
