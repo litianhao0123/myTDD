@@ -17,6 +17,9 @@ public class LockerRobotManager {
                 maxAvailableCapacityLocker = locker;
             }
         }
+        if(maxAvailableCapacity==0){
+            throw new LockerFullException();
+        }
         return maxAvailableCapacityLocker.store(bag);
     }
 }
