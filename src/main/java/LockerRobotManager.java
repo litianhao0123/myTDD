@@ -9,6 +9,14 @@ public class LockerRobotManager {
     }
 
     public Ticket store(Bag bag) {
-        return lockers.get(0).store(bag);
+        int maxAvailableCapacity = 0;
+        Locker maxAvailableCapacityLocker = null;
+        for(Locker locker : lockers){
+            if(locker.availableCapacity()>maxAvailableCapacity){
+                maxAvailableCapacity = locker.availableCapacity();
+                maxAvailableCapacityLocker = locker;
+            }
+        }
+        return maxAvailableCapacityLocker.store(bag);
     }
 }
