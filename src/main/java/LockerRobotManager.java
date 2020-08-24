@@ -17,6 +17,11 @@ public class LockerRobotManager {
                     return ((SmartLockerRobot) robot).store(bag);
                 }
             }
+            for(Object robot : lockerRobotManagers){
+                if(robot.getClass().equals(PrimaryLockerRobot.class)){
+                    return ((PrimaryLockerRobot) robot).store(bag);
+                }
+            }
         }
         int maxAvailableCapacity = 0;
         Locker maxAvailableCapacityLocker = null;

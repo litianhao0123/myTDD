@@ -78,4 +78,19 @@ public class LockerRobotManagerTest {
         assertNotNull(ticket);
         assertEquals(bag,smartLockerRobot.pickUpBy(ticket));
     }
+
+    @Test
+    public void should_store_the_bag_by_the_first_primary_robot_when_store_bag_by_robot_given_two_robots_are_primary_and_available(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        PrimaryLockerRobot primaryLockerRobot1 = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot2 = new PrimaryLockerRobot(Arrays.asList(locker3, locker4));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(null,Arrays.asList(primaryLockerRobot1, primaryLockerRobot2));
+        Bag bag = new Bag();
+        Ticket ticket = lockerRobotManager.store(bag);
+        assertNotNull(ticket);
+        assertEquals(bag,primaryLockerRobot1.pickUpBy(ticket));
+    }
 }
