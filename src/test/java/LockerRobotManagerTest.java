@@ -63,4 +63,19 @@ public class LockerRobotManagerTest {
         assertNotNull(ticket);
         assertEquals(bag,smartLockerRobot.pickUpBy(ticket));
     }
+
+    @Test
+    public void should_store_the_bag_by_the_smart_robot_when_store_bag_by_robot_given_the_second_robot_is_smart_and_available(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(locker1, locker2));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker3, locker4));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(null,Arrays.asList(primaryLockerRobot, smartLockerRobot));
+        Bag bag = new Bag();
+        Ticket ticket = lockerRobotManager.store(bag);
+        assertNotNull(ticket);
+        assertEquals(bag,smartLockerRobot.pickUpBy(ticket));
+    }
 }

@@ -12,7 +12,11 @@ public class LockerRobotManager {
 
     public Ticket store(Bag bag) {
         if(lockerRobotManagers!=null){
-            return ((SmartLockerRobot)lockerRobotManagers.get(0)).store(bag);
+            for(Object robot : lockerRobotManagers){
+                if(robot.getClass().equals(SmartLockerRobot.class)){
+                    return ((SmartLockerRobot) robot).store(bag);
+                }
+            }
         }
         int maxAvailableCapacity = 0;
         Locker maxAvailableCapacityLocker = null;
