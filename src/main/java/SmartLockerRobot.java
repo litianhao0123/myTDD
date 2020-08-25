@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Optional;
 
 public class SmartLockerRobot {
 
@@ -9,26 +10,20 @@ public class SmartLockerRobot {
     }
 
     public Ticket store(Bag bag) {
-        int maxCapacity = 0;
-        Locker maxCapacityLocker = null;
-        for(Locker locker : lockers){
-            if(locker.availableCapacity()>maxCapacity){
-                maxCapacity = locker.availableCapacity();
-                maxCapacityLocker = locker;
-            }
-        }
-        if(maxCapacity==0){
+        Optional<Locker> maxAvailableLocker = lockers.stream().sorted().findFirst();
+        if(maxAvailableLocker.isPresent()){
+            return maxAvailableLocker.get().store(bag);
+        }else{
             throw new LockerFullException();
         }
-        return maxCapacityLocker.store(bag);
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        for(Locker locker : lockers){
-            if(!locker.invalidTicket(ticket)){
-                return locker.pickUpBy(ticket);
-            }
+        Optional<Locker> usedLocker = lockers.stream().filter(locker -> !locker.invalidTicket(ticket)).findFirst();
+        if(usedLocker.isPresent()){
+            return usedLocker.get().pickUpBy(ticket);
+        }else{
+            throw new WrongTicketException();
         }
-        throw new WrongTicketException();
     }
 }

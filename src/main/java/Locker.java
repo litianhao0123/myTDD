@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Locker {
+public class Locker implements Comparable<Locker>{
 
     private int capacity;
     private Map<Ticket,Bag> bagPool = new HashMap<>();
@@ -38,5 +38,10 @@ public class Locker {
 
     public int availableCapacity(){
         return capacity-bagPool.size();
+    }
+
+    @Override
+    public int compareTo(Locker o) {
+        return Integer.compare(o.availableCapacity(),this.availableCapacity());
     }
 }
