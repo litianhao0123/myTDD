@@ -1,16 +1,14 @@
 import java.util.List;
 import java.util.Optional;
 
-public class SmartLockerRobot {
-
-    private List<Locker> lockers;
+public class SmartLockerRobot extends Robot{
 
     public SmartLockerRobot(List<Locker> lockers) {
-        this.lockers = lockers;
+        super(lockers);
     }
 
     public Ticket store(Bag bag) {
-        Optional<Locker> maxAvailableLocker = lockers.stream().sorted().findFirst();
+        Optional<Locker> maxAvailableLocker = getLockers().stream().sorted().findFirst();
         if(maxAvailableLocker.isPresent()){
             return maxAvailableLocker.get().store(bag);
         }else{
@@ -19,7 +17,7 @@ public class SmartLockerRobot {
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        Optional<Locker> usedLocker = lockers.stream().filter(locker -> !locker.invalidTicket(ticket)).findFirst();
+        Optional<Locker> usedLocker = getLockers().stream().filter(locker -> !locker.invalidTicket(ticket)).findFirst();
         if(usedLocker.isPresent()){
             return usedLocker.get().pickUpBy(ticket);
         }else{

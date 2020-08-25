@@ -93,4 +93,55 @@ public class LockerRobotManagerTest {
         assertNotNull(ticket);
         assertEquals(bag,primaryLockerRobot1.pickUpBy(ticket));
     }
+
+    @Test
+    public void should_store_the_bag_by_the_second_robot_when_store_bag_by_robot_given_the_first_robot_is_full(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(locker1, locker2));
+        smartLockerRobot.store(new Bag());
+        smartLockerRobot.store(new Bag());
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker3, locker4));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(null,Arrays.asList(smartLockerRobot, primaryLockerRobot));
+        Bag bag = new Bag();
+        Ticket ticket = lockerRobotManager.store(bag);
+        assertNotNull(ticket);
+        assertEquals(bag,primaryLockerRobot.pickUpBy(ticket));
+    }
+
+    @Test
+    public void should_store_the_bag_by_the_second_robot_when_store_bag_by_robot_given_two_robots_are_primary_and_the_first_robot_is_full(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        PrimaryLockerRobot primaryLockerRobot1 = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
+        primaryLockerRobot1.store(new Bag());
+        primaryLockerRobot1.store(new Bag());
+        PrimaryLockerRobot primaryLockerRobot2 = new PrimaryLockerRobot(Arrays.asList(locker3, locker4));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(null,Arrays.asList(primaryLockerRobot1, primaryLockerRobot2));
+        Bag bag = new Bag();
+        Ticket ticket = lockerRobotManager.store(bag);
+        assertNotNull(ticket);
+        assertEquals(bag,primaryLockerRobot2.pickUpBy(ticket));
+    }
+
+    @Test
+    public void should_throw_exception_when_store_bag_by_robot_given_two_robots_are_full(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        PrimaryLockerRobot primaryLockerRobot1 = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
+        primaryLockerRobot1.store(new Bag());
+        primaryLockerRobot1.store(new Bag());
+        PrimaryLockerRobot primaryLockerRobot2 = new PrimaryLockerRobot(Arrays.asList(locker3, locker4));
+        primaryLockerRobot2.store(new Bag());
+        primaryLockerRobot2.store(new Bag());
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(null,Arrays.asList(primaryLockerRobot1, primaryLockerRobot2));
+        Bag bag = new Bag();
+        assertThrows(LockerFullException.class,()->lockerRobotManager.store(bag));
+    }
 }
