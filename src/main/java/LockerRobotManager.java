@@ -1,13 +1,12 @@
 import java.util.List;
 
-public class LockerRobotManager {
+public class LockerRobotManager extends SmartLockerRobot{
 
     private List<Object> lockerRobotManagers;
-    private List<Locker> lockers;
 
     public LockerRobotManager(List<Locker> lockers, List<Object> lockerRobotManagers) {
+        super(lockers);
         this.lockerRobotManagers = lockerRobotManagers;
-        this.lockers = lockers;
     }
 
     public Ticket store(Bag bag) {
@@ -23,17 +22,6 @@ public class LockerRobotManager {
                 }
             }
         }
-        int maxAvailableCapacity = 0;
-        Locker maxAvailableCapacityLocker = null;
-        for(Locker locker : lockers){
-            if(locker.availableCapacity()>maxAvailableCapacity){
-                maxAvailableCapacity = locker.availableCapacity();
-                maxAvailableCapacityLocker = locker;
-            }
-        }
-        if(maxAvailableCapacity==0){
-            throw new LockerFullException();
-        }
-        return maxAvailableCapacityLocker.store(bag);
+        return super.store(bag);
     }
 }
