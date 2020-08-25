@@ -144,4 +144,21 @@ public class LockerRobotManagerTest {
         Bag bag = new Bag();
         assertThrows(LockerFullException.class,()->lockerRobotManager.store(bag));
     }
+
+    @Test
+    public void should_store_the_bag_by_smart_robot_when_store_bag_by_robot_given_all_are_available(){
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        Locker locker3 = new Locker(1);
+        Locker locker4 = new Locker(1);
+        Locker locker5 = new Locker(1);
+        Locker locker6 = new Locker(1);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(locker1, locker2));
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(locker3, locker4));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(Arrays.asList(locker5,locker6),Arrays.asList(primaryLockerRobot, smartLockerRobot));
+        Bag bag = new Bag();
+        Ticket ticket = lockerRobotManager.store(bag);
+        assertNotNull(ticket);
+        assertEquals(bag,smartLockerRobot.pickUpBy(ticket));
+    }
 }
