@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Optional;
 
 public class PrimaryLockerRobot extends Robot{
 
@@ -9,20 +8,18 @@ public class PrimaryLockerRobot extends Robot{
 
 
     public Ticket store(Bag bag) {
-        Optional<Locker> selectedLocker = getLockers().stream().filter(locker -> !locker.isFull()).findFirst();
-        if(selectedLocker.isPresent()){
-            return selectedLocker.get().store(bag);
-        }else{
-            throw new LockerFullException();
-        }
+        Locker selectedLocker = getLockers().stream()
+                .filter(locker -> !locker.isFull())
+                .findFirst()
+                .orElseThrow(LockerFullException::new);
+        return selectedLocker.store(bag);
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        Optional<Locker> usedLocker = getLockers().stream().filter(locker -> !locker.invalidTicket(ticket)).findFirst();
-        if(usedLocker.isPresent()){
-            return usedLocker.get().pickUpBy(ticket);
-        }else{
-            throw new WrongTicketException();
-        }
+        Locker usedLocker = getLockers().stream()
+                .filter(locker -> !locker.invalidTicket(ticket))
+                .findFirst()
+                .orElseThrow(WrongTicketException::new);
+        return usedLocker.pickUpBy(ticket);
     }
 }
