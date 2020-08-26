@@ -1,48 +1,33 @@
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class LockerRobotManager extends SmartLockerRobot{
 
-    private List<Robot> lockerRobotManagers;
+    private List<Robot> managedRobots;
 
-    public LockerRobotManager(List<Locker> lockers, List<Robot> lockerRobotManagers) {
+    public LockerRobotManager(List<Locker> lockers, List<Robot> managedRobots) {
         super(lockers);
-        this.lockerRobotManagers = lockerRobotManagers;
+        this.managedRobots = managedRobots;
     }
 
     public Ticket store(Bag bag) {
-        if(lockerRobotManagers==null) return super.store(bag);
-        Ticket ticket = storeWith(bag);
-        if(ticket==null){
-            return super.store(bag);
-        }
-        return ticket;
+        if(managedRobots ==null) return super.store(bag);
+        return storeTryWithRobotFirst(bag);
     }
 
-    private Ticket storeWith(Bag bag){
-        if(lockerRobotManagers.stream().noneMatch(Robot::isAvailable)){
-            if(getLockers()==null) throw new LockerFullException();
-            return null;
-        }
-        Optional<Robot> selectedSmartRobot = lockerRobotManagers.stream()
-                .filter(robot -> robot.isAvailable()&&robot.getClass().equals(SmartLockerRobot.class))
-                .findFirst();
-        if(selectedSmartRobot.isPresent()){
-            return ((SmartLockerRobot)selectedSmartRobot.get()).store(bag);
-        }
-        Optional<Robot> selectedPrimaryRobot = lockerRobotManagers.stream()
-                .filter(robot -> robot.isAvailable()&&robot.getClass().equals(PrimaryLockerRobot.class))
-                .findFirst();
-        return ((PrimaryLockerRobot)selectedPrimaryRobot.get()).store(bag);
+    private Ticket storeTryWithRobotFirst(Bag bag) {
+        Robot selectedRobot = managedRobots.stream()
+                .sorted().filter(Robot::isAvailable).findFirst().orElse(null);
+        if(selectedRobot==null&&getLockers()==null) throw new LockerFullException();
+        if(selectedRobot==null) return super.store(bag);
+        return selectedRobot.store(bag);
     }
 
     public Bag pickUpBy(Ticket ticket) {
-        Optional<Locker> usedLocker = getLockers().stream().filter(locker -> !locker.invalidTicket(ticket)).findFirst();
-        if(usedLocker.isPresent()){
-            return usedLocker.get().pickUpBy(ticket);
-        }else{
-            throw new WrongTicketException();
-        }
+        Locker usedLocker = getLockers().stream()
+                .filter(locker -> !locker.invalidTicket(ticket))
+                .findFirst()
+                .orElseThrow(WrongTicketException::new);
+        return usedLocker.pickUpBy(ticket);
     }
 }
