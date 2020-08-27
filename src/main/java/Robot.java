@@ -16,7 +16,7 @@ public class Robot implements Comparable<Robot>{
     }
 
     public Ticket store(Bag bag){
-        return store(bag);
+        return null;
     }
 
     @Override
