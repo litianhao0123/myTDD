@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TDDtest {
+public class LockerTest {
 
     @Test
     public void should_get_a_ticket_when_storing_a_bag_in_locker_of_one_available_capacity(){

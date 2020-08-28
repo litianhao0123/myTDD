@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Robot implements Comparable<Robot>{
+public abstract class Robot implements Comparable<Robot>{
     private List<Locker> lockers;
 
     public Robot(List<Locker> lockers) {
@@ -15,9 +15,7 @@ public class Robot implements Comparable<Robot>{
         return lockers.stream().mapToInt(Locker::availableCapacity).sum()!=0;
     }
 
-    public Ticket store(Bag bag){
-        return null;
-    }
+    public abstract Ticket store(Bag bag);
 
     @Override
     public int compareTo(Robot o) {
